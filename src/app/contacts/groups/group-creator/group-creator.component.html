@@ -1,0 +1,28 @@
+<ion-content class="ion-padding">
+  <h1>
+    <span *ngIf="!error else errorTitle">New group</span>
+    <ng-template #errorTitle>
+      <ion-text color="danger">
+        <ng-container [ngSwitch]="error.status">
+          <span *ngSwitchCase="409">{{error.error.error | titlecase}}</span>
+          <span *ngSwitchDefault> Sorry, something happened</span>
+        </ng-container>
+      </ion-text>
+    </ng-template>
+  </h1>
+  <form [formGroup]="validationsForm" (ngSubmit)="create()">
+    <ion-item>
+      <ion-label position="floating">Group name:</ion-label>
+      <ion-input type="email" formControlName="name"></ion-input>
+      <ion-text color="danger" *ngIf="!validationsForm.get('name').valid && validationsForm.get('name').dirty">
+                <span *ngIf="validationsForm.get('name').hasError('required')">
+                    Name is required
+                </span>
+        <span *ngIf="validationsForm.get('name').hasError('name')">
+                    Name must be valid
+                </span>
+      </ion-text>
+    </ion-item>
+    <ion-button type="submit" [disabled]="!validationsForm.valid">Create</ion-button>
+  </form>
+</ion-content>

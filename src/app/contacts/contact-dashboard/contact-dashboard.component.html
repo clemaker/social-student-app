@@ -1,0 +1,10 @@
+<ion-content class="ion-padding">
+  <div *ngFor="let student of users">
+    <div>
+      {{student.username}} - {{student.email}}<br />
+      <ion-button (click)="invite(student)" color="success"> Invite </ion-button>
+      <ion-button (click)="remove(student)" color="danger"> Delete </ion-button>
+    </div>
+    <br />
+  </div>
+</ion-content>

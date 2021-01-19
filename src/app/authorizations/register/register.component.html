@@ -1,0 +1,60 @@
+<app-toolbar [title]="'Register'"></app-toolbar>
+
+<ion-content class="ion-padding">
+    <h1>
+        <span *ngIf="!error else errorTitle">Register</span>
+        <ng-template #errorTitle>
+            <ion-text color="danger">
+                <ng-container [ngSwitch]="error.status">
+                    <span *ngSwitchCase="409">{{error.error.error | titlecase}}</span>
+                    <span *ngSwitchDefault> Sorry, something happened</span>
+                </ng-container>
+            </ion-text>
+        </ng-template>
+    </h1>
+    <form [formGroup]="validationsForm" (ngSubmit)="register()">
+        <ion-item>
+            <ion-label position="floating">Email:</ion-label>
+            <ion-input type="email" formControlName="email"></ion-input>
+            <ion-text color="danger" *ngIf="!validationsForm.get('email').valid && validationsForm.get('email').dirty">
+                <span *ngIf="validationsForm.get('email').hasError('required')">
+                    Email is required
+                </span>
+                <span *ngIf="validationsForm.get('email').hasError('email')">
+                    Email must be valid
+                </span>
+            </ion-text>
+        </ion-item>
+        <ion-item>
+            <ion-label position="floating">Password:</ion-label>
+            <ion-input type="password" formControlName="password"></ion-input>
+            <ion-text color="danger" *ngIf="!validationsForm.get('password').valid && validationsForm.get('password').dirty">
+                <span>
+                    Password can't be empty
+                </span>
+            </ion-text>
+        </ion-item>
+        <ion-item>
+            <ion-label position="floating">Verify your Password:</ion-label>
+            <ion-input type="password" formControlName="verifyPassword"></ion-input>
+            <ion-text color="danger" *ngIf="!validationsForm.get('verifyPassword').valid && validationsForm.get('verifyPassword').dirty">
+                <span>
+                    Password doesn't match
+                </span>
+            </ion-text>
+        </ion-item>
+        <ion-item>
+            <ion-label position="floating">Username:</ion-label>
+            <ion-input type="text" formControlName="username"></ion-input>
+            <ion-text color="danger" *ngIf="!validationsForm.get('username').valid && validationsForm.get('username').dirty">
+                <span *ngIf="validationsForm.get('username').hasError('required')">
+                    Username is required
+                </span>
+                <span *ngIf="validationsForm.get('username').hasError('username')">
+                    Username must be valid
+                </span>
+            </ion-text>
+        </ion-item>
+        <ion-button type="submit" [disabled]="!validationsForm.valid">Register</ion-button>
+    </form>
+</ion-content>
